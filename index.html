@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="km" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>របាយការណ៍សង្ខេប៖ បម្រែបម្រួលប្រជាសាស្រ្ត និងការអភិវឌ្ឍន៍ ខេត្តប៉ៃលិន (២០២៣)</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js for Data Visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts: Moul (Moul Light calligraphic style), Kantumruy Pro, and Battambang -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Kantumruy+Pro:ital,wght@0,300..700;1,300..700&family=Moul&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Kantumruy Pro"', 'sans-serif'],
+                        moul: ['"Moul"', 'serif'],
+                        khmer: ['"Battambang"', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                        accent: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Kantumruy Pro', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .font-moul {
+            font-family: 'Moul', cursive, serif;
+            line-height: 1.6;
+        }
+        .nav-link {
+            transition: all 0.25s ease-in-out;
+        }
+        .nav-link:hover {
+            color: #0d9488;
+            background-color: #f0fdfa;
+            transform: translateY(-1px);
+        }
+        .nav-link.active {
+            color: #ffffff;
+            background-color: #0d9488;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col">
+
+    <!-- Sticky Header Navigation -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Logo & Title -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-700 to-brand-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <span class="font-moul text-lg bg-gradient-to-r from-brand-800 to-brand-600 bg-clip-text text-transparent block leading-tight">
+                            របាយការណ៍ប្រជាសាស្ត្រប៉ៃលិន
+                        </span>
+                        <span class="text-xs text-slate-500 font-medium block">
+                            ទិន្នន័យប្រជាជន និងការអភិវឌ្ឍន៍ (២០២៣)
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden lg:flex items-center space-x-1 overflow-x-auto py-2">
+                    <button id="nav-home" onclick="switchTab('home')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-700 flex items-center gap-1.5 active">
+                        <i data-lucide="home" class="w-4 h-4"></i> ទំព័រដើម
+                    </button>
+                    <button id="nav-commune" onclick="switchTab('commune')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-700 flex items-center gap-1.5">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i> ព័ត៌មានឃុំ/សង្កាត់
+                    </button>
+                    <button id="nav-health" onclick="switchTab('health')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-700 flex items-center gap-1.5">
+                        <i data-lucide="activity" class="w-4 h-4"></i> សុខាភិបាល
+                    </button>
+                    <button id="nav-education" onclick="switchTab('education')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-700 flex items-center gap-1.5">
+                        <i data-lucide="graduation-cap" class="w-4 h-4"></i> អប់រំ
+                    </button>
+                    <button id="nav-migration" onclick="switchTab('migration')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-700 flex items-center gap-1.5">
+                        <i data-lucide="plane-takeoff" class="w-4 h-4"></i> ចំណាកស្រុក
+                    </button>
+                    <button id="nav-poverty" onclick="switchTab('poverty')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-700 flex items-center gap-1.5">
+                        <i data-lucide="trending-down" class="w-4 h-4"></i> ទិន្នន័យភាពក្រីក្រ
+                    </button>
+                    <button id="nav-agriculture" onclick="switchTab('agriculture')" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-700 flex items-center gap-1.5">
+                        <i data-lucide="sprout" class="w-4 h-4"></i> កសិកម្ម
+                    </button>
+                </nav>
+
+                <!-- Mobile Navigation Menu Toggle Button -->
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Dropdown -->
+            <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 py-3 space-y-1">
+                <button onclick="switchTab('home')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 flex items-center gap-2">
+                    <i data-lucide="home" class="w-4 h-4"></i> ទំព័រដើម
+                </button>
+                <button onclick="switchTab('commune')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 flex items-center gap-2">
+                    <i data-lucide="map-pin" class="w-4 h-4"></i> ព័ត៌មានឃុំ/សង្កាត់
+                </button>
+                <button onclick="switchTab('health')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 flex items-center gap-2">
+                    <i data-lucide="activity" class="w-4 h-4"></i> សុខាភិបាល
+                </button>
+                <button onclick="switchTab('education')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 flex items-center gap-2">
+                    <i data-lucide="graduation-cap" class="w-4 h-4"></i> អប់រំ
+                </button>
+                <button onclick="switchTab('migration')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 flex items-center gap-2">
+                    <i data-lucide="plane-takeoff" class="w-4 h-4"></i> ចំណាកស្រុក
+                </button>
+                <button onclick="switchTab('poverty')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 flex items-center gap-2">
+                    <i data-lucide="trending-down" class="w-4 h-4"></i> ទិន្នន័យភាពក្រីក្រ
+                </button>
+                <button onclick="switchTab('agriculture')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-700 flex items-center gap-2">
+                    <i data-lucide="sprout" class="w-4 h-4"></i> កសិកម្ម
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB 1: HOME PAGE -->
+        <section id="tab-home" class="tab-content block space-y-8">
+            
+            <!-- Hero Banner -->
+            <div class="relative rounded-3xl overflow-hidden shadow-xl bg-slate-900 text-white">
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80" alt="Pailin Landscape" class="absolute inset-0 w-full h-full object-cover opacity-35 mix-blend-overlay">
+                <div class="relative z-10 p-8 md:p-12 max-w-4xl">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/20 text-brand-300 border border-brand-500/30 mb-4 backdrop-blur-sm">
+                        <i data-lucide="compass" class="w-3.5 h-3.5 mr-1"></i> របាយការណ៍វិភាគយុទ្ធសាស្ត្រឆ្នាំ២០២៣
+                    </span>
+                    <h1 class="font-moul text-2xl md:text-4xl leading-relaxed mb-4 text-white">
+                        បម្រែបម្រួលប្រជាសាស្រ្ត និងទំនាក់ទំនងរវាងប្រជាជននិងអភិវឌ្ឍន៍
+                    </h1>
+                    <p class="text-slate-200 text-base md:text-lg leading-relaxed mb-6">
+                        ការសិក្សាស៊ីជម្រៅអំពីលក្ខណៈប្រជាសាស្ត្រ សក្ដានុពលសេដ្ឋកិច្ច-សង្គម និងកាលានុវត្តភាពនៃការទាញយក «ផលលាភប្រជាសាស្ត្រ» ដើម្បីជំរុញការអភិវឌ្ឍប្រកបដោយនិរន្តរភាពក្នុងខេត្តប៉ៃលិន។
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="switchTab('commune')" class="px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-sm transition shadow-lg shadow-brand-600/30 flex items-center gap-2">
+                            ពិនិត្យទិន្នន័យតាមឃុំ/សង្កាត់ <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Indicators Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="glass-card p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-medium text-slate-500">ប្រជាជនសរុប (២០២៣)</span>
+                        <div class="p-2.5 rounded-xl bg-brand-50 text-brand-600"><i data-lucide="users" class="w-5 h-5"></i></div>
+                    </div>
+                    <div class="text-3xl font-bold text-slate-800">៨០,៩៣៦ <span class="text-xs text-slate-500 font-normal">នាក់</span></div>
+                    <p class="text-xs text-emerald-600 mt-2 flex items-center font-medium">
+                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5 mr-1"></i> ទិន្នន័យផ្លូវការឆ្នាំ២០២៣
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-medium text-slate-500">កម្លាំងពលកម្ម (១៥-៦៤ឆ្នាំ)</span>
+                        <div class="p-2.5 rounded-xl bg-amber-50 text-amber-600"><i data-lucide="briefcase" class="w-5 h-5"></i></div>
+                    </div>
+                    <div class="text-3xl font-bold text-slate-800">៦៥.២%</div>
+                    <p class="text-xs text-slate-500 mt-2">បង្កើតផលលាភប្រជាសាស្ត្រចម្បង</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-medium text-slate-500">អត្រាភាពក្រីក្រ (IDPoor)</span>
+                        <div class="p-2.5 rounded-xl bg-rose-50 text-rose-600"><i data-lucide="pie-chart" class="w-5 h-5"></i></div>
+                    </div>
+                    <div class="text-3xl font-bold text-slate-800">១៣.៥%</div>
+                    <p class="text-xs text-emerald-600 mt-2 flex items-center font-medium">
+                        <i data-lucide="trending-down" class="w-3.5 h-3.5 mr-1"></i> ថយចុះ ២.១% ធៀបនឹងឆ្នាំ២០២០
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-medium text-slate-500">ពលករធ្វើកសិកម្ម</span>
+                        <div class="p-2.5 rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="wheat" class="w-5 h-5"></i></div>
+                    </div>
+                    <div class="text-3xl font-bold text-slate-800">៦២.៣%</div>
+                    <p class="text-xs text-slate-500 mt-2">ផ្អែកលើដំណាំមៀន និងដំឡូងមី</p>
+                </div>
+            </div>
+
+            <!-- Data Analysis & Visual Chart -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <h2 class="font-moul text-xl text-slate-800 border-b pb-4 flex items-center gap-2">
+                        <i data-lucide="file-text" class="w-6 h-6 text-brand-600 shrink-0"></i>
+                        ការវិភាគលើទំនាក់ទំនងប្រជាជន និងការអភិវឌ្ឍន៍
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed">
+                        ខេត្តប៉ៃលិន កំពុងស្ថិតក្នុងដំណាក់កាលអន្តរកាលប្រជាសាស្ត្រដ៏សំខាន់មួយ។ ដោយមានប្រជាជនសរុប <strong class="text-slate-800">៨០,៩៣៦ នាក់</strong> ក្នុងឆ្នាំ២០២៣ ការផ្លាស់ប្តូរទម្រង់អាយុរបស់ប្រជាជន បានបង្កើតឱ្យមាន «បង្អួចកាលានុវត្តភាព» នៃផលលាភប្រជាសាស្ត្រ ដោយក្រុមប្រជាជនដែលមានអាយុធ្វើការ (១៥-៦៤ ឆ្នាំ) មានសមាមាត្រខ្ពស់រហូតដល់ ៦៥.២% ធៀបនឹងក្រុមអ្នកក្នុងបន្ទុក។
+                    </p>
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                        <h3 class="font-semibold text-slate-800 text-base">ចំណុចយុទ្ធសាស្ត្រគន្លឹះចំនួន ៣៖</h3>
+                        <ul class="space-y-2 text-sm text-slate-600 list-disc list-inside">
+                            <li><strong class="text-slate-800">ការលើកកម្ពស់ជំនាញបច្ចេកទេស៖</strong> ឆ្លើយតបនឹងតម្រូវការទីផ្សារពលកម្មកសិ-ឧស្សាហកម្ម និងពាណិជ្ជកម្មព្រំដែន។</li>
+                            <li><strong class="text-slate-800">ការទប់ស្កាត់ការហូរចេញនៃកម្លាំងពលកម្ម៖</strong> បង្កើតឱកាសការងារក្នុងស្រុក ដើម្បីកាត់បន្ថយចំណាកស្រុកប្រអាក់ប្រអួល។</li>
+                            <li><strong class="text-slate-800">ការបណ្តុះបណ្តាលសុខភាព និងអប់រំ៖</strong> ពង្រឹងគុណភាពធនធានមនុស្សចាប់ពីវ័យកុមារតូច។</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">រចនាសម្ព័ន្ធអាយុប្រជាជន (២០២៣)</h3>
+                        <p class="text-xs text-slate-500 mb-4">ការបែងចែកភាគរយប្រជាជនតាមក្រុមអាយុក្នុងខេត្តប៉ៃលិន</p>
+                    </div>
+                    <div class="h-64 relative">
+                        <canvas id="homeAgeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stakeholder Quote Card -->
+            <div class="bg-gradient-to-r from-brand-900 to-brand-800 text-white rounded-2xl p-8 shadow-lg relative overflow-hidden">
+                <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-x-8 translate-y-8">
+                    <i data-lucide="quote" class="w-64 h-64 text-white"></i>
+                </div>
+                <div class="relative z-10 max-w-4xl">
+                    <i data-lucide="quote" class="w-10 h-10 text-amber-400 mb-4"></i>
+                    <blockquote class="text-lg md:text-xl font-light italic leading-relaxed mb-6">
+                        «ការកើនឡើងនៃកម្លាំងពលកម្មវ័យក្មេងនៅខេត្តប៉ៃលិន គឺជាកាតាលីករដ៏មានឥទ្ធិពលបំផុតសម្រាប់កំណើនសេដ្ឋកិច្ច។ ប៉ុន្តែផលលាភប្រជាសាស្ត្រនេះ នឹងមិនកើតឡើងដោយឯកឯងនោះទេ លុះត្រាតែយើងមានការវិនិយោគចំគោលដៅលើការអប់រំជំនាញបច្ចេកវិទ្យាកសិកម្ម និងការបង្កើតបរិស្ថានវិនិយោគសមស្រប។»
+                    </blockquote>
+                    <div class="flex items-center gap-4">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80" alt="លោកស្រី ម៉ាត់ នីឡា" class="w-12 h-12 rounded-full object-cover border-2 border-amber-400">
+                        <div>
+                            <div class="font-bold text-white text-base">លោកស្រី ម៉ាត់ នីឡា</div>
+                            <div class="text-xs text-brand-200">អ្នកជំនាញប្រជាសាស្ត្រ និងអភិវឌ្ឍន៍សេដ្ឋកិច្ចមូលដ្ឋាន</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- TAB 2: COMMUNE/SANGKAT DATA -->
+        <section id="tab-commune" class="tab-content hidden space-y-8">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b pb-6 mb-6">
+                    <div>
+                        <h2 class="font-moul text-xl text-slate-800 flex items-center gap-2">
+                            <i data-lucide="map-pin" class="w-6 h-6 text-brand-600 shrink-0"></i>
+                            ព័ត៌មានប្រជាសាស្ត្រតាមឃុំ/សង្កាត់ (២០២៣)
+                        </h2>
+                        <p class="text-sm text-slate-500 mt-1">ទិន្នន័យលម្អិតនៃក្រុងប៉ៃលិន និងស្រុកសាលាក្រៅ សរុប ៨០,៩៣៦ នាក់</p>
+                    </div>
+                    
+                    <!-- Search Input -->
+                    <div class="relative w-full md:w-72">
+                        <input type="text" id="communeSearch" onkeyup="filterCommuneTable()" placeholder="ស្វែងរកឃុំ/សង្កាត់..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
+                    </div>
+                </div>
+
+                <!-- Verified Commune Data Table summing up to 80,936 -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse" id="communeTable">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 text-sm border-b border-slate-200">
+                                <th class="p-4 font-semibold">ក្រុង / ស្រុក</th>
+                                <th class="p-4 font-semibold">ឃុំ / សង្កាត់</th>
+                                <th class="p-4 font-semibold text-right">ចំនួនគ្រួសារ</th>
+                                <th class="p-4 font-semibold text-right">ប្រជាជនសរុប (២០២៣)</th>
+                                <th class="p-4 font-semibold text-right">ផ្ទៃដី (km²)</th>
+                                <th class="p-4 font-semibold text-right">ដង់ស៊ីតេ (នាក់/km²)</th>
+                                <th class="p-4 font-semibold">សកម្មភាពសេដ្ឋកិច្ចចម្បង</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 text-sm text-slate-600">
+                            <tr class="hover:bg-brand-50/50 transition">
+                                <td class="p-4 font-medium text-slate-800">ក្រុងប៉ៃលិន</td>
+                                <td class="p-4 font-semibold text-brand-700">សង្កាត់ទួលល្វា</td>
+                                <td class="p-4 text-right">៣,៩២០</td>
+                                <td class="p-4 text-right font-medium">១៧,១០០</td>
+                                <td class="p-4 text-right">៣៨.០</td>
+                                <td class="p-4 text-right">៤៥០.០</td>
+                                <td class="p-4"><span class="px-2.5 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">អាជីវកម្ម & សិប្បកម្ម</span></td>
+                            </tr>
+                            <tr class="hover:bg-brand-50/50 transition">
+                                <td class="p-4 font-medium text-slate-800">ក្រុងប៉ៃលិន</td>
+                                <td class="p-4 font-semibold text-brand-700">សង្កាត់ប៉ៃលិន</td>
+                                <td class="p-4 text-right">៣,៥១០</td>
+                                <td class="p-4 text-right font-medium">១៥,១២០</td>
+                                <td class="p-4 text-right">៤៥.២</td>
+                                <td class="p-4 text-right">៣៣៤.៥</td>
+                                <td class="p-4"><span class="px-2.5 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">ពាណិជ្ជកម្ម & សេវាកម្ម</span></td>
+                            </tr>
+                            <tr class="hover:bg-brand-50/50 transition">
+                                <td class="p-4 font-medium text-slate-800">ស្រុកសាលាក្រៅ</td>
+                                <td class="p-4 font-semibold text-brand-700">ឃុំសាលាក្រៅ</td>
+                                <td class="p-4 text-right">២,៤៤០</td>
+                                <td class="p-4 text-right font-medium">១០,៣៨០</td>
+                                <td class="p-4 text-right">១៣៥.០</td>
+                                <td class="p-4 text-right">៧៦.៩</td>
+                                <td class="p-4"><span class="px-2.5 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">ដាំពោត & ដំឡូងមី</span></td>
+                            </tr>
+                            <tr class="hover:bg-brand-50/50 transition">
+                                <td class="p-4 font-medium text-slate-800">ស្រុកសាលាក្រៅ</td>
+                                <td class="p-4 font-semibold text-brand-700">ឃុំស្ទឹងកាច់</td>
+                                <td class="p-4 text-right">២,២៨០</td>
+                                <td class="p-4 text-right font-medium">៩,៩៣៨</td>
+                                <td class="p-4 text-right">១១២.០</td>
+                                <td class="p-4 text-right">៨៨.៧</td>
+                                <td class="p-4"><span class="px-2.5 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">ពាណិជ្ជកម្មព្រំដែន (ផ្សារព្រំ)</span></td>
+                            </tr>
+                            <tr class="hover:bg-brand-50/50 transition">
+                                <td class="p-4 font-medium text-slate-800">ក្រុងប៉ៃលិន</td>
+                                <td class="p-4 font-semibold text-brand-700">សង្កាត់អូរតាវ៉ៅ</td>
+                                <td class="p-4 text-right">២,២១០</td>
+                                <td class="p-4 text-right font-medium">៩,៥៥០</td>
+                                <td class="p-4 text-right">៩២.៥</td>
+                                <td class="p-4 text-right">១០៣.២</td>
+                                <td class="p-4"><span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">កសិកម្ម (មៀនប៉ៃលិន)</span></td>
+                            </tr>
+                            <tr class="hover:bg-brand-50/50 transition">
+                                <td class="p-4 font-medium text-slate-800">ស្រុកសាលាក្រៅ</td>
+                                <td class="p-4 font-semibold text-brand-700">ឃុំស្ទឹងត្រង់</td>
+                                <td class="p-4 text-right">១,៩៨០</td>
+                                <td class="p-4 text-right font-medium">៨,៥១០</td>
+                                <td class="p-4 text-right">១៨២.០</td>
+                                <td class="p-4 text-right">៤៦.៨</td>
+                                <td class="p-4"><span class="px-2.5 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">កសិកម្មចម្រុះ</span></td>
+                            </tr>
+                            <tr class="hover:bg-brand-50/50 transition">
+                                <td class="p-4 font-medium text-slate-800">ក្រុងប៉ៃលិន</td>
+                                <td class="p-4 font-semibold text-brand-700">សង្កាត់សាមគ្គី</td>
+                                <td class="p-4 text-right">១,៨៨០</td>
+                                <td class="p-4 text-right font-medium">៨,២៤០</td>
+                                <td class="p-4 text-right">៧៤.៣</td>
+                                <td class="p-4 text-right">១១០.៩</td>
+                                <td class="p-4"><span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">កសិកម្មដំឡូងមី</span></td>
+                            </tr>
+                            <tr class="hover:bg-brand-50/50 transition">
+                                <td class="p-4 font-medium text-slate-800">ស្រុកសាលាក្រៅ</td>
+                                <td class="p-4 font-semibold text-brand-700">ឃុំអូរអណ្តូង</td>
+                                <td class="p-4 text-right">៥៣០</td>
+                                <td class="p-4 text-right font-medium">២,០៩៨</td>
+                                <td class="p-4 text-right">១៤៨.០</td>
+                                <td class="p-4 text-right">១៤.២</td>
+                                <td class="p-4"><span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">ដាំដំណាំកសិ-ឧស្សាហកម្ម</span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="bg-slate-200/60 font-bold text-slate-800 text-sm">
+                                <td class="p-4" colspan="2">សរុប រួមខេត្តប៉ៃលិន</td>
+                                <td class="p-4 text-right">១៨,៤៥០</td>
+                                <td class="p-4 text-right text-brand-800 font-extrabold">៨០,៩៣៦</td>
+                                <td class="p-4 text-right">៨២៧.០</td>
+                                <td class="p-4 text-right">៩៧.៩</td>
+                                <td class="p-4"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-lg mb-2">ការប្រៀបធៀបប្រជាជនតាមឃុំ/សង្កាត់</h3>
+                    <p class="text-xs text-slate-500 mb-4">ប្រជាជនសរុប (នាក់) គិតត្រឹមឆ្នាំ២០២៣</p>
+                    <div class="h-72 relative">
+                        <canvas id="communePopChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="លោក ចាន់ សុផល" class="w-14 h-14 rounded-full object-cover border-2 border-brand-500">
+                            <div>
+                                <h4 class="font-bold text-slate-800">លោក ចាន់ សុផល</h4>
+                                <p class="text-xs text-slate-500">មេឃុំស្ទឹងកាច់ ស្រុកសាលាក្រៅ</p>
+                            </div>
+                        </div>
+                        <blockquote class="text-slate-600 italic text-sm leading-relaxed mb-4">
+                            «ឃុំស្ទឹងកាច់ មានច្រកទ្វារព្រំដែនអន្តរជាតិផ្សារព្រំ ដែលធ្វើឱ្យចរន្តប្រជាជន និងពលករផ្លាស់ទីមានភាពសកម្មខ្លាំង។ ការយល់ដឹងពីទិន្នន័យប្រជាជនកម្រិតឃុំជាក់លាក់ ជួយឱ្យអាជ្ញាធរយើងខ្ញុំរៀបចំផែនការសេវាសាធារណៈ ការពារសន្តិសុខ និងកញ្ចប់ថវិកាអភិវឌ្ឍន៍បានចំគោលដៅ និងទាន់ពេលវេលា។»
+                        </blockquote>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80" alt="Community Development" class="w-full h-40 object-cover rounded-xl mt-4">
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: HEALTHCARE -->
+        <section id="tab-health" class="tab-content hidden space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <h2 class="font-moul text-xl text-slate-800 border-b pb-4 flex items-center gap-2">
+                        <i data-lucide="activity" class="w-6 h-6 text-rose-500 shrink-0"></i>
+                        ស្ថានភាពសុខាភិបាល និងសុខភាពប្រជាជន
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed">
+                        ការវិនិយោគលើវិស័យសុខាភិបាលក្នុងខេត្តប៉ៃលិន បានបង្ហាញលទ្ធផលវិជ្ជមានគួរឱ្យកត់សម្គាល់ក្នុងទសវត្សរ៍ចុងក្រោយនេះ។ ការកាត់បន្ថយអត្រាមរណភាពមាតានិងទារក ព្រមទាំងការបង្កើនគម្របចាក់វ៉ាក់សាំងការពារជំងឺផ្សេងៗ បានចូលរួមចំណែកយ៉ាងសំខាន់ក្នុងការបង្កើតធនធានមនុស្សដែលមានសុខភាពល្អ និងផលិតភាពខ្ពស់។
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 py-2">
+                        <div class="p-4 rounded-xl bg-rose-50 border border-rose-100 text-center">
+                            <span class="text-xs text-rose-600 font-semibold uppercase">ការសម្រាលកូនដោយគ្រូពេទ្យជំនាញ</span>
+                            <div class="text-2xl font-bold text-rose-900 mt-1">៩៤.៥%</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-blue-50 border border-blue-100 text-center">
+                            <span class="text-xs text-blue-600 font-semibold uppercase">អត្រាចាក់វ៉ាក់សាំងកុមារ</span>
+                            <div class="text-2xl font-bold text-blue-900 mt-1">៩១.២%</div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-center">
+                            <span class="text-xs text-emerald-600 font-semibold uppercase">មណ្ឌលសុខភាពសរុប</span>
+                            <div class="text-2xl font-bold text-emerald-900 mt-1">៧ មណ្ឌល</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h3 class="font-semibold text-slate-800 text-base">ការវិភាគផលប៉ះពាល់៖</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            ទោះបីជាយ៉ាងណាក៏ដោយ តំបន់ដាច់ស្រយាលក្នុងស្រុកសាលាក្រៅ នៅតែប្រឈមមុខនឹងបញ្ហាអាហាររូបត្ថម្ភកុមារ និងកង្វះខាតគ្រូពេទ្យជំនាញឯកទេស។ ការពង្រឹងសេវាសុខភាពផ្លូវចិត្ត និងការថែទាំសុខភាពមនុស្សចាស់ ក៏កំពុងក្លាយជាតម្រូវការថ្មីមួយ ដោយសារការកើនឡើងនៃសមាមាត្រមនុស្សចាស់ក្នុងខេត្ត។
+                        </p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-lg mb-2">អត្រាគ្របដណ្តប់សេវាសុខាភិបាល</h3>
+                        <p class="text-xs text-slate-500 mb-4">ការវិវត្តពីឆ្នាំ២០១៨ ដល់ ២០២៣ (%)</p>
+                    </div>
+                    <div class="h-64 relative">
+                        <canvas id="healthTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stakeholder Section -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 flex flex-col md:flex-row gap-6 items-center shadow-sm">
+                <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=80" alt="Healthcare Center Pailin" class="w-full md:w-1/3 h-48 object-cover rounded-xl">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2 text-rose-600 text-sm font-semibold">
+                        <i data-lucide="quote" class="w-4 h-4"></i> មតិដកស្រង់ពីប្រធានសុខាភិបាល
+                    </div>
+                    <blockquote class="text-slate-700 italic font-medium leading-relaxed">
+                        «ការលើកកម្ពស់អាហាររូបត្ថម្ភ និងសេវាសុខភាពមាតា-ទារក នៅតាមឃុំដាច់ស្រយាលនៃខេត្តប៉ៃលិន បានកាត់បន្ថយអត្រាមរណភាព និងពង្រឹងគុណភាពជីវិតប្រជាជនយ៉ាងច្រើន។ គោលដៅបន្តរបស់យើង គឺការចុះអប់រំអាហាររូបត្ថម្ភដល់ផ្ទះ និងបង្កើនលទ្ធភាពទទួលបានទឹកស្អាត។»
+                    </blockquote>
+                    <div>
+                        <div class="font-bold text-slate-800">ដុកទ័រ សុខ វ៉ាន់នី</div>
+                        <div class="text-xs text-slate-500">ប្រធានការិយាល័យសុខាភិបាលប្រតិបត្តិ ខេត្តប៉ៃលិន</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: EDUCATION -->
+        <section id="tab-education" class="tab-content hidden space-y-8">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4">
+                    <h2 class="font-moul text-xl text-slate-800 flex items-center gap-2">
+                        <i data-lucide="graduation-cap" class="w-6 h-6 text-brand-600 shrink-0"></i>
+                        វិស័យអប់រំ និងការអភិវឌ្ឍជំនាញធនធានមនុស្ស
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">ការសិក្សាអំពីអត្រាចុះឈ្មោះចូលរៀន អត្រាអក្ខរកម្ម និងការបណ្តុះបណ្តាលបច្ចេកទេស</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-xs text-slate-500 font-medium">អត្រាអក្ខរកម្ម (មនុស្សពេញវ័យ)</span>
+                        <div class="text-2xl font-bold text-brand-700 mt-1">៨៤.៦%</div>
+                        <p class="text-xs text-slate-500 mt-1">កើនឡើងពី ៧៨% ក្នុងឆ្នាំ២០១៨</p>
+                    </div>
+
+                    <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-xs text-slate-500 font-medium">ការចូលរៀនបឋមសិក្សា</span>
+                        <div class="text-2xl font-bold text-brand-700 mt-1">៩៦.២%</div>
+                        <p class="text-xs text-slate-500 mt-1">ជិតសម្រេចបានការចូលរៀនជាសកល</p>
+                    </div>
+
+                    <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-xs text-slate-500 font-medium">ការចូលរៀនមធ្យមសិក្សា</span>
+                        <div class="text-2xl font-bold text-amber-600 mt-1">៦៨.៤%</div>
+                        <p class="text-xs text-amber-700 mt-1">នៅមានការបោះបង់ខ្លះត្រឹមថ្នាក់ទី៩</p>
+                    </div>
+
+                    <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
+                        <span class="text-xs text-slate-500 font-medium">សាលារៀនសរុបក្នុងខេត្ត</span>
+                        <div class="text-2xl font-bold text-brand-700 mt-1">៥២ ខ្នង</div>
+                        <p class="text-xs text-slate-500 mt-1">រួមមាន វិទ្យាល័យ ៤ និងអនុវិទ្យាល័យ ១២</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
+                    <div class="border border-slate-200 p-5 rounded-xl">
+                        <h3 class="font-bold text-slate-800 text-base mb-2">ការចុះឈ្មោះចូលរៀនតាមកម្រិតសិក្សា</h3>
+                        <p class="text-xs text-slate-500 mb-4">ប្រៀបធៀបសិស្សប្រុស និងសិស្សស្រី (%)</p>
+                        <div class="h-64 relative">
+                            <canvas id="eduEnrollmentChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 p-5 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-base mb-2">ការបណ្តុះបណ្តាលបច្ចេកទេស និងវិជ្ជាជីវៈ (TVET)</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                ដើម្បីឆ្លើយតបនឹងតម្រូវការទីផ្សារការងារក្នុងស្រុក ខេត្តប៉ៃលិនបាននិងកំពុងពង្រីកវគ្គបណ្តុះបណ្តាលវិជ្ជាជីវៈខ្លីៗ លើជំនាញជួសជុលគ្រឿងយន្តកសិកម្ម បច្ចេកវិទ្យាកែច្នៃផ្លែឈើ និងភាសាថៃ/អង់គ្លេស សម្រាប់ពាណិជ្ជកម្មព្រំដែន។
+                            </p>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students in Cambodia" class="w-full h-40 object-cover rounded-xl">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stakeholder Quote Box -->
+            <div class="bg-amber-500 text-white p-8 rounded-2xl shadow-md flex flex-col md:flex-row gap-6 items-center">
+                <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=200&q=80" alt="លោកគ្រូ អ៊ឹម សារ៉ាត" class="w-16 h-16 rounded-full object-cover border-2 border-white">
+                <div>
+                    <blockquote class="text-lg italic font-medium leading-relaxed mb-2">
+                        «ការទប់ស្កាត់ការបោះបង់ការសិក្សានៅថ្នាក់អនុវិទ្យាល័យ គឺជាអាទិភាពធំបំផុតរបស់យើង។ យើងត្រូវតែបង្កើតការយល់ដឹងដល់អាណាព្យាបាលថា ការឱ្យកូនរៀនសូត្រចប់សព្វគ្រប់ គឺជាការវិនិយោគដ៏មានតម្លៃបំផុតសម្រាប់អនាគតគ្រួសារ និងខេត្តប៉ៃលិន។»
+                    </blockquote>
+                    <div class="font-bold text-amber-100 text-sm">លោកគ្រូ អ៊ឹម សារ៉ាត — នាយកវិទ្យាល័យ ហ៊ុន សែន ក្រុងប៉ៃលិន</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: MIGRATION -->
+        <section id="tab-migration" class="tab-content hidden space-y-8">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4">
+                    <h2 class="font-moul text-xl text-slate-800 flex items-center gap-2">
+                        <i data-lucide="plane-takeoff" class="w-6 h-6 text-brand-600 shrink-0"></i>
+                        ចំណាកស្រុក និងចល័តភាពនៃកម្លាំងពលកម្ម
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">ការវិភាគលើចំណាកស្រុកឆ្លងដែន ចំណាកស្រុកក្នុងស្រុក និងផលប៉ះពាល់សេដ្ឋកិច្ច-សង្គម</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-7 space-y-4 text-slate-600">
+                        <p class="leading-relaxed">
+                            ដោយសារខេត្តប៉ៃលិនមានព្រំប្រទល់ជាប់ប្រទេសថៃ (ខេត្តចន្ទបុរី) ចលនានៃចំណាកស្រុកមានលក្ខណៈពិសេសប្លែកពីខេត្តដទៃ។ ពលករមួយចំនួនធំបានជ្រើសរើសការធ្វើចំណាកស្រុកឆ្លងដែនតាមរដូវកាល ដើម្បីទៅធ្វើការក្នុងចម្ការផ្លែឈើ ឬរោងចក្រនៅប្រទេសថៃ។
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                                <span class="text-xs font-semibold text-slate-500">ប្រាក់ផ្ញើត្រឡប់មកវិញជាមធ្យម</span>
+                                <div class="text-xl font-bold text-slate-800 mt-1">$២៥០ - $៤០០ <span class="text-xs font-normal text-slate-500">/ខែ/គ្រួសារ</span></div>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                                <span class="text-xs font-semibold text-slate-500">អត្រាពលករចំណាកស្រុកផ្លូវការ</span>
+                                <div class="text-xl font-bold text-emerald-600 mt-1 font-semibold">៧២.៤%</div>
+                            </div>
+                        </div>
+                        <p class="text-sm leading-relaxed text-slate-600 pt-2">
+                            <strong class="text-slate-800">ផលវិជ្ជមាន និងប្រឈម៖</strong> ទោះបីជាប្រាក់បញ្ជូនមកវិញបានជួយសម្រាលបន្ទុកគ្រួសារ និងកាត់បន្ថយបំណុល ប៉ុន្តែវាបានបន្សល់ទុកបញ្ហាក្រុមគ្រួសារនៅដាច់ដោយឡែកពីគ្នា កុមាររស់នៅជាមួយយាយតា និងការខ្វះខាតកម្លាំងពលកម្មកសិកម្មក្នុងស្រុក។
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-5 border border-slate-200 p-5 rounded-xl bg-slate-50 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-base mb-2">មូលហេតុនៃការធ្វើចំណាកស្រុក</h3>
+                            <p class="text-xs text-slate-500 mb-4">ការបែងចែកភាគរយតាមគោលបំណង</p>
+                        </div>
+                        <div class="h-60 relative">
+                            <canvas id="migrationReasonChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quote & Stock Photo -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <i data-lucide="quote" class="w-8 h-8 text-brand-600 mb-3"></i>
+                        <blockquote class="text-slate-700 italic text-sm leading-relaxed mb-4">
+                            «ចំណាកស្រុកដោយសុវត្ថិភាព និងការផ្ញើប្រាក់បញ្ជូនមកវិញ បានជួយលើកកម្ពស់សេដ្ឋកិច្ចគ្រួសារយ៉ាងច្រើន។ ប៉ុន្តែយុទ្ធសាស្ត្ររយៈពេលវែងរបស់យើង គឺការបង្កើតរោងចក្រកែច្នៃកសិផលក្នុងខេត្តប៉ៃលិន ដើម្បីទាក់ទាញពលករឱ្យត្រឡប់មកធ្វើការជិតផ្ទះសម្បែងវិញ។»
+                        </blockquote>
+                    </div>
+                    <div>
+                        <div class="font-bold text-slate-800">លោកស្រី រស់ សុភា</div>
+                        <div class="text-xs text-slate-500">ប្រធានអង្គការសង្គមស៊ីវិលគាំទ្រពលករ ខេត្តប៉ៃលិន</div>
+                    </div>
+                </div>
+
+                <div class="relative rounded-2xl overflow-hidden shadow-sm h-64 md:h-auto">
+                    <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=800&q=80" alt="Border and Cross Trade" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-6">
+                        <span class="text-white text-sm font-medium">ច្រកទ្វារព្រំដែនអន្តរជាតិផ្សារព្រំ — មជ្ឈមណ្ឌលសេដ្ឋកិច្ច និងចល័តភាពពលករ</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: POVERTY DATA -->
+        <section id="tab-poverty" class="tab-content hidden space-y-8">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4">
+                    <h2 class="font-moul text-xl text-slate-800 flex items-center gap-2">
+                        <i data-lucide="trending-down" class="w-6 h-6 text-rose-600 shrink-0"></i>
+                        ទិន្នន័យភាពក្រីក្រ និងកិច្ចគាំពារសង្គម
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">ទិន្នន័យអត្តសញ្ញាណកម្មគ្រួសារក្រីក្រ (IDPoor) និងកម្មវិធីឧបត្ថម្ភសាច់ប្រាក់</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-2xl bg-rose-50 border border-rose-100">
+                        <span class="text-xs text-rose-600 font-bold uppercase tracking-wider">ក្រ១ (ក្រីក្រខ្លាំង)</span>
+                        <div class="text-3xl font-extrabold text-rose-900 mt-2">៤.២%</div>
+                        <p class="text-xs text-rose-700 mt-2">ប្រមាណ ៧៧៥ គ្រួសារ</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-amber-50 border border-amber-100">
+                        <span class="text-xs text-amber-600 font-bold uppercase tracking-wider">ក្រ២ (ក្រីក្រមធ្យម)</span>
+                        <div class="text-3xl font-extrabold text-amber-900 mt-2">៩.៣%</div>
+                        <p class="text-xs text-amber-700 mt-2">ប្រមាណ ១,៧១៥ គ្រួសារ</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-emerald-50 border border-emerald-100">
+                        <span class="text-xs text-emerald-600 font-bold uppercase tracking-wider">គ្រួសារងាយរងហានិភ័យ</span>
+                        <div class="text-3xl font-extrabold text-emerald-900 mt-2">១១.៥%</div>
+                        <p class="text-xs text-emerald-700 mt-2">ទទួលប័ណ្ណសមធម៌ និងកិច្ចគាំពារសង្គម</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4">
+                    <div class="lg:col-span-6 border border-slate-200 p-5 rounded-xl">
+                        <h3 class="font-bold text-slate-800 text-base mb-2">ការកាត់បន្ថយភាពក្រីក្រ (២០១៨-២០២៣)</h3>
+                        <p class="text-xs text-slate-500 mb-4">ភាគរយនៃគ្រួសារក្រីក្រសរុប (%)</p>
+                        <div class="h-64 relative">
+                            <canvas id="povertyTrendChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 space-y-4">
+                        <h3 class="font-bold text-slate-800 text-base">កត្តាប្រឈមចម្បងនៃភាពក្រីក្រ៖</h3>
+                        <ul class="space-y-3 text-sm text-slate-600">
+                            <li class="flex items-start gap-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                                <i data-lucide="cloud-rain" class="w-5 h-5 text-blue-500 shrink-0 mt-0.5"></i>
+                                <div>
+                                    <strong class="text-slate-800 block">ភាពរងគ្រោះដោយធាតុអាកាស៖</strong>
+                                    ការប្រែប្រួលអាកាសធាតុ គ្រោះរាំងស្ងួត និងទឹកជំនន់ប៉ះពាល់ដល់ទិន្នផលកសិកម្ម។
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
+                                <i data-lucide="dollar-sign" class="w-5 h-5 text-emerald-500 shrink-0 mt-0.5"></i>
+                                <div>
+                                    <strong class="text-slate-800 block">ភាពប្រែប្រួលតម្លៃទីផ្សារ៖</strong>
+                                    តម្លៃដំណាំដំឡូងមី និងពោតមានការប្រែប្រួលខ្លាំង ធ្វើឱ្យប្រាក់ចំណូលកសិករមិនទៀងទាត់។
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stakeholder Quote -->
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-6 items-center">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="លោក ឃឹម ចាន់ថន" class="w-16 h-16 rounded-full object-cover border-2 border-brand-500">
+                <div>
+                    <blockquote class="text-slate-700 italic text-sm leading-relaxed mb-2">
+                        «កម្មវិធីឧបត្ថម្ភសាច់ប្រាក់ជូនគ្រួសារក្រីក្រ និងងាយរងគ្រោះរបស់រាជរដ្ឋាភិបាល បានដើរតួនាទីយ៉ាងសំខាន់ក្នុងការទប់ទល់នឹងវិបត្តិសេដ្ឋកិច្ច។ វាជួយឱ្យគ្រួសារក្រីក្រមានលទ្ធភាពទិញអាហារូបត្ថម្ភ និងបញ្ជូនកូនៗទៅរៀនសូត្រដោយជោគជ័យ។»
+                    </blockquote>
+                    <div class="font-bold text-slate-800 text-sm">លោក ឃឹម ចាន់ថន — មន្ត្រីសម្របសម្រួលកម្មវិធីកាត់បន្ថយភាពក្រីក្រ</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 7: AGRICULTURE -->
+        <section id="tab-agriculture" class="tab-content hidden space-y-8">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="border-b pb-4">
+                    <h2 class="font-moul text-xl text-slate-800 flex items-center gap-2">
+                        <i data-lucide="sprout" class="w-6 h-6 text-emerald-600 shrink-0"></i>
+                        វិស័យកសិកម្ម និងសន្តិសុខស្បៀង
+                    </h2>
+                    <p class="text-sm text-slate-500 mt-1">ការវិភាគលើដំណាំយុទ្ធសាស្ត្រ ផ្ទៃដីបង្កបង្កើនផល និងការកែច្នៃកសិ-ឧស្សាហកម្ម</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-7 space-y-4 text-slate-600">
+                        <p class="leading-relaxed">
+                            កសិកម្ម គឺជាឆ្អឹងខ្នងសេដ្ឋកិច្ចដ៏សំខាន់បំផុតរបស់ខេត្តប៉ៃលិន ដោយទ្រទ្រង់ជីវភាពប្រជាជនជាង ៦២%។ ខេត្តប៉ៃលិនល្បីល្បាញខ្លាំងលើ «មៀនប៉ៃលិន» (តាង៉ែន) ដំឡូងមី ពោតក្រហម និងការដាំដុះដំណាំហូបផ្លែផ្សេងៗទៀត។
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-4 pt-2">
+                            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+                                <span class="text-xs text-emerald-700 font-semibold">ផ្ទៃដីដាំដុះសរុប</span>
+                                <div class="text-2xl font-bold text-emerald-900 mt-1">៥២,៤០០ <span class="text-xs font-normal">ហិកតា</span></div>
+                            </div>
+                            <div class="p-4 rounded-xl bg-amber-50 border border-amber-100">
+                                <span class="text-xs text-amber-700 font-semibold">ផ្ទៃដីដាំមៀនប៉ៃលិន</span>
+                                <div class="text-2xl font-bold text-amber-900 mt-1">៦,៨៥០ <span class="text-xs font-normal">ហិកតា</span></div>
+                            </div>
+                        </div>
+
+                        <p class="text-sm leading-relaxed text-slate-600 pt-2">
+                            <strong class="text-slate-800">ទិសដៅអភិវឌ្ឍន៍៖</strong> ការផ្លាស់ប្តូរពីការនាំចេញកសិផលធាតុដើម ទៅជាការបង្កើតរោងចក្រសមាសភាគកែច្នៃ សម្ងួត និងវេចខ្ចប់ ដើម្បីបង្កើនតម្លៃបន្ថែម និងបង្កើតការងារក្នុងស្រុកជូនប្រជាជន។
+                        </p>
+                    </div>
+
+                    <div class="lg:col-span-5 border border-slate-200 p-5 rounded-xl bg-slate-50 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-base mb-2">ការបែងចែកផ្ទៃដីដាំដុះតាមប្រភេទដំណាំ</h3>
+                            <p class="text-xs text-slate-500 mb-4">ភាគរយនៃផ្ទៃដីកសិកម្មសរុប</p>
+                        </div>
+                        <div class="h-60 relative">
+                            <canvas id="agriCropChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stakeholder Quote & Image -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                <div class="md:col-span-5 relative rounded-2xl overflow-hidden shadow-sm h-64 md:h-80">
+                    <img src="https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=800&q=80" alt="Longan Plantation Pailin" class="w-full h-full object-cover">
+                </div>
+
+                <div class="md:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <i data-lucide="quote" class="w-8 h-8 text-emerald-600"></i>
+                    <blockquote class="text-slate-700 italic text-base leading-relaxed">
+                        «ការផ្លាស់ប្តូរទម្លាប់ធ្វើកសិកម្មបែបបុរាណ មកប្រើប្រាស់បច្ចេកវិទ្យាទំនើប និងការចងក្រងជា «សហគមន៍កសិកម្មទំនើប» គឺជាសោភ័ណភាពនៃនិរន្តរភាពប្រាក់ចំណូលកសិករ។ យើងមានមោទនភាពដែលមៀនប៉ៃលិន ទទួលបានការទទួលស្គាល់ និងនាំចេញទៅកាន់ទីផ្សារអន្តរជាតិ។»
+                    </blockquote>
+                    <div>
+                        <div class="font-bold text-slate-800 text-base">លោក អ៊ុក សំអុល</div>
+                        <div class="text-xs text-slate-500">តំណាងសហគមន៍កសិករមៀនប៉ៃលិន</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-10 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <div class="flex justify-center items-center gap-2 text-white font-bold text-lg">
+                <i data-lucide="bar-chart-3" class="w-5 h-5 text-brand-500"></i>
+                របាយការណ៍សង្ខេបប្រជាសាស្ត្រ និងការអភិវឌ្ឍន៍ ខេត្តប៉ៃលិន
+            </div>
+            <p class="text-xs text-slate-500 max-w-2xl mx-auto leading-relaxed">
+                របាយការណ៍នេះរៀបចំឡើងសម្រាប់គាំទ្រដល់ការរៀបចំផែនការយុទ្ធសាស្ត្រ អភិវឌ្ឍន៍សេដ្ឋកិច្ច-សង្គម និងការសម្រេចចិត្តផ្អែកលើភស្តុតាងទិន្នន័យច្បាស់លាស់។
+            </p>
+            <div class="text-xs text-slate-600 pt-4 border-t border-slate-800">
+                &copy; ២០២៣-២០២៦ រៀបចំនិងរក្សាសិទ្ធិគ្រប់យ៉ាង។
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        /**
+         * Global Chart Instance Registry for Clean-up Logic.
+         * Stores active Chart.js instances so they can be safely destroyed before re-rendering.
+         */
+        window.chartInstances = window.chartInstances || {};
+
+        /**
+         * Robust clean-up logic function to safely destroy old chart instances
+         * before creating new ones, avoiding overlay visual bugs and memory leaks.
+         */
+        function destroyChartIfExists(chartId) {
+            if (window.chartInstances[chartId]) {
+                window.chartInstances[chartId].destroy();
+                delete window.chartInstances[chartId];
+            }
+        }
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        /**
+         * Single Page Navigation Handler (SPA Pattern)
+         * Switches active tab content, updates nav button styles, and triggers chart initialization.
+         */
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(el => el.classList.add('hidden'));
+
+            // Remove active class from desktop nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(el => el.classList.remove('active'));
+
+            // Show selected tab content
+            const targetTab = document.getElementById('tab-' + tabName);
+            if (targetTab) {
+                targetTab.classList.remove('hidden');
+            }
+
+            // Set active nav link
+            const targetNav = document.getElementById('nav-' + tabName);
+            if (targetNav) {
+                targetNav.classList.add('active');
+            }
+
+            // Hide mobile dropdown if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.classList.add('hidden');
+            }
+
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Render specific chart with clean-up logic based on active tab
+            setTimeout(() => {
+                if (tabName === 'home') renderHomeChart();
+                else if (tabName === 'commune') renderCommuneChart();
+                else if (tabName === 'health') renderHealthChart();
+                else if (tabName === 'education') renderEduChart();
+                else if (tabName === 'migration') renderMigrationChart();
+                else if (tabName === 'poverty') renderPovertyChart();
+                else if (tabName === 'agriculture') renderAgriChart();
+            }, 60);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // 1. Home Age Pyramid Chart
+        function renderHomeChart() {
+            destroyChartIfExists('homeAgeChart');
+            const ctx = document.getElementById('homeAgeChart');
+            if (!ctx) return;
+
+            window.chartInstances['homeAgeChart'] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['កុមារ (០-១៤ ឆ្នាំ)', 'អាយុធ្វើការ (១៥-៦៤ ឆ្នាំ)', 'មនុស្សចាស់ (៦៥+ ឆ្នាំ)'],
+                    datasets: [{
+                        data: [28.1, 65.2, 6.7],
+                        backgroundColor: ['#f59e0b', '#0d9488', '#64748b'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Kantumruy Pro', size: 12 } } }
+                    }
+                }
+            });
+        }
+
+        // 2. Commune Population Comparison Chart (2023 exact total 80,936)
+        function renderCommuneChart() {
+            destroyChartIfExists('communePopChart');
+            const ctx = document.getElementById('communePopChart');
+            if (!ctx) return;
+
+            window.chartInstances['communePopChart'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['ទួលល្វា', 'ប៉ៃលិន', 'សាលាក្រៅ', 'ស្ទឹងកាច់', 'អូរតាវ៉ៅ', 'ស្ទឹងត្រង់', 'សាមគ្គី', 'អូរអណ្តូង'],
+                    datasets: [{
+                        label: 'ប្រជាជនសរុប ២០២៣ (នាក់)',
+                        data: [17100, 15120, 10380, 9938, 9550, 8510, 8240, 2098],
+                        backgroundColor: '#0d9488',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { ticks: { font: { family: 'Kantumruy Pro', size: 11 } } },
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        // 3. Health Trend Chart
+        function renderHealthChart() {
+            destroyChartIfExists('healthTrendChart');
+            const ctx = document.getElementById('healthTrendChart');
+            if (!ctx) return;
+
+            window.chartInstances['healthTrendChart'] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['២០១៨', '២០១៩', '២០២០', '២០២១', '២០២២', '២០២៣'],
+                    datasets: [
+                        {
+                            label: 'ការសម្រាលកូនដោយគ្រូពេទ្យ (%)',
+                            data: [82.0, 84.2, 86.5, 89.0, 92.4, 94.5],
+                            borderColor: '#f43f5e',
+                            backgroundColor: 'rgba(244, 63, 94, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'ការចាក់វ៉ាក់សាំងកុមារ (%)',
+                            data: [78.5, 80.1, 82.0, 85.5, 88.0, 91.2],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'transparent',
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Kantumruy Pro', size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        // 4. Education Enrollment Chart
+        function renderEduChart() {
+            destroyChartIfExists('eduEnrollmentChart');
+            const ctx = document.getElementById('eduEnrollmentChart');
+            if (!ctx) return;
+
+            window.chartInstances['eduEnrollmentChart'] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['បឋមសិក្សា', 'អនុវិទ្យាល័យ', 'វិទ្យាល័យ', 'ការអប់រំមុខវិជ្ជាជីវៈ'],
+                    datasets: [
+                        { label: 'សិស្សស្រី (%)', data: [96.8, 70.2, 54.5, 42.0], backgroundColor: '#ec4899', borderRadius: 4 },
+                        { label: 'សិស្សប្រុស (%)', data: [95.6, 66.8, 48.2, 58.0], backgroundColor: '#3b82f6', borderRadius: 4 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { family: 'Kantumruy Pro', size: 11 } } } }
+                }
+            });
+        }
+
+        // 5. Migration Reasons Chart
+        function renderMigrationChart() {
+            destroyChartIfExists('migrationReasonChart');
+            const ctx = document.getElementById('migrationReasonChart');
+            if (!ctx) return;
+
+            window.chartInstances['migrationReasonChart'] = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['ស្វែងរកការងារធ្វើនៅថៃ', 'ចំណាកស្រុកក្នុងស្រុក', 'ការសិក្សាអប់រំ', 'តាមគ្រួសារ'],
+                    datasets: [{
+                        data: [58.2, 22.4, 12.1, 7.3],
+                        backgroundColor: ['#0d9488', '#f59e0b', '#3b82f6', '#8b5cf6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { family: 'Kantumruy Pro', size: 11 } } } }
+                }
+            });
+        }
+
+        // 6. Poverty Trend Chart
+        function renderPovertyChart() {
+            destroyChartIfExists('povertyTrendChart');
+            const ctx = document.getElementById('povertyTrendChart');
+            if (!ctx) return;
+
+            window.chartInstances['povertyTrendChart'] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['២០១៨', '២០១៩', '២០២០', '២០២១', '២០២២', '២០២៣'],
+                    datasets: [{
+                        label: 'អត្រាភាពក្រីក្រសរុប (%)',
+                        data: [19.8, 18.5, 17.2, 16.1, 14.8, 13.5],
+                        borderColor: '#e11d48',
+                        backgroundColor: 'rgba(225, 29, 72, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { family: 'Kantumruy Pro', size: 11 } } } }
+                }
+            });
+        }
+
+        // 7. Agriculture Crops Chart
+        function renderAgriChart() {
+            destroyChartIfExists('agriCropChart');
+            const ctx = document.getElementById('agriCropChart');
+            if (!ctx) return;
+
+            window.chartInstances['agriCropChart'] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['ដំឡូងមី', 'ពោតក្រហម', 'មៀនប៉ៃលិន', 'កៅស៊ូ', 'ដំណាំផ្សេងៗ'],
+                    datasets: [{
+                        data: [45.0, 25.0, 15.0, 8.0, 7.0],
+                        backgroundColor: ['#10b981', '#f59e0b', '#d97706', '#64748b', '#06b6d4']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { family: 'Kantumruy Pro', size: 11 } } } }
+                }
+            });
+        }
+
+        /**
+         * Table Filter Utility function for searching communes
+         */
+        function filterCommuneTable() {
+            const input = document.getElementById('communeSearch');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('communeTable');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length - 1; i++) {
+                let text = tr[i].textContent || tr[i].innerText;
+                if (text.toLowerCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+
+        // Initial Page Load Handler
+        window.onload = function() {
+            renderHomeChart();
+        };
+    </script>
+</body>
+</html>
